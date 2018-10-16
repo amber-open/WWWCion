@@ -22,7 +22,7 @@
         <v-btn flat>Link Three</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-content>
+    <v-content style="background:#eee">
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
           <v-flex text-xs-center>

@@ -23,9 +23,15 @@
                 required
               ></v-text-field>
             </v-form>
+
+
             <v-flex text-xs-center xs12>
-              <v-btn style="width:50%" color="primary">登&nbsp;录</v-btn>
+              <v-btn style="width:50%" color="primary">登&nbsp;录<v-icon class="ml-2" dark right>arrow_forward</v-icon></v-btn>
             </v-flex>
+            <v-layout align-center justify-space-between reverse>
+              <v-btn small flat color="primary">忘记密码？</v-btn>
+              <v-btn to="/list" small flat color="primary">立即注册</v-btn>
+            </v-layout>
           </v-card-text>
         </v-layout>
       </v-card>
@@ -37,6 +43,7 @@
   export default {
     data: () => ({
       valid: false,
+      auto: false,
       name: '',
       nameRules: [
         v => !!v || '请填写用户名',
@@ -56,14 +63,18 @@
 
 <style scoped>
   #inspire{
-    background: #B1DEB6;
+    /* background-image: url('../assets/ubg2.jpg'); */
+    background-image: url('https://cdn.vuetifyjs.com/images/parallax/material.jpg');
+    background-position: center;
+    background-size: cover;
   }
   .m-left{
     height: 500px;
-    width: 250px;
-    background-image: url('../assets/ubg.jpg');
-    background-position: center;
+    width: 270px;
+    background-image: url('../assets/ubg2.jpg');
+    background-position: 80% center;
     background-size: cover;
+    box-shadow: 0 7px 8px -4px rgba(0,0,0,.2),0 12px 17px 2px rgba(0,0,0,.14),0 5px 22px 4px rgba(0,0,0,.12)!important;
   }
   .m-right{
     height: 500px;
