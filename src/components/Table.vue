@@ -15,7 +15,7 @@
         <td class="text-xs-right">{{ props.item.iron }}</td>
       </template>
     </v-data-table>
-    <div class="mt-2 text-xs-center">
+    <div style="max-width:600px;margin:10px auto 0 auto" class="text-xs-center">
       <v-pagination
         v-model="page"
         :length="66"

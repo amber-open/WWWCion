@@ -14,18 +14,20 @@
     </v-navigation-drawer> -->
     <v-toolbar color="indigo" dark fixed app>
       <!-- <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon> -->
-      <v-toolbar-title>Title</v-toolbar-title>
+      <v-toolbar-title>
+        <img class="logo" src="https://cdn.vuetifyjs.com/images/logos/v-alt.svg" height="38px" width="38px">
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn flat>Link One</v-btn>
         <v-btn flat>Link Two</v-btn>
-        <v-btn flat>Link Three</v-btn>
+        <v-btn flat><v-icon class="ml-2" dark right>power_settings_new</v-icon></v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content style="background:#eee">
-      <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-          <v-flex text-xs-center>
+      <v-container md-10 fluid fill-height>
+        <v-layout justify-center>
+          <v-flex xs12 md10 lg9 xl8 text-xs-center>
             <v-layout v-bind="binding" row justify-space-around>
               <v-flex mb-3 xs12 sm5 md4 lg3 xl3>
                 <v-card dark color="primary">
@@ -50,7 +52,6 @@
                 </v-card>
               </v-flex>
             </v-layout>
-
             <list-table/>
           </v-flex>
         </v-layout>
@@ -118,5 +119,8 @@
 <style scoped>
   body{
     padding-top: 20px;
+  }
+  .logo{
+    display: block;
   }
 </style>
