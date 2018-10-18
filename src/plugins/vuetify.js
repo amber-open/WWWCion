@@ -1,9 +1,44 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-import zhHans from 'vuetify/es5/locale/zh-Hans'
+import {
+  Vuetify,
+  VApp,
+  VCard,
+  VDataTable,
+  VDialog,
+  VTextField,
+  VDivider,
+  VPagination,
+  VForm,
+  VNavigationDrawer,
+  VFooter,
+  VList,
+  VBtn,
+  VIcon,
+  VGrid,
+  VToolbar,
+  transitions
+} from 'vuetify'
+import 'vuetify/src/stylus/app.styl'
 
 Vue.use(Vuetify, {
+  components: {
+    VApp,
+    VCard,
+    VDataTable,
+    VDialog,
+    VTextField,
+    VDivider,
+    VPagination,
+    VForm,
+    VNavigationDrawer,
+    VFooter,
+    VList,
+    VBtn,
+    VIcon,
+    VGrid,
+    VToolbar,
+    transitions
+  },
   theme: {
     primary: '#607D8B',
     secondary: '#424242',
@@ -16,8 +51,4 @@ Vue.use(Vuetify, {
   },
   customProperties: true,
   iconfont: 'md',
-  lang: {
-    locales: { zhHans },
-    current: 'zh-Hans'
-  },
 })

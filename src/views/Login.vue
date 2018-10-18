@@ -64,7 +64,7 @@
 <style scoped>
   #inspire{
     /* background-image: url('../assets/ubg2.jpg'); */
-    background-image: url('https://cdn.vuetifyjs.com/images/parallax/material.jpg');
+    background-image: url('../assets/authBg.jpg');
     background-position: center;
     background-size: cover;
   }

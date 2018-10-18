@@ -15,7 +15,7 @@
     <v-toolbar color="indigo" dark fixed app>
       <!-- <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon> -->
       <v-toolbar-title>
-        <img class="logo" src="https://cdn.vuetifyjs.com/images/logos/v-alt.svg" height="38px" width="38px">
+        <img class="logo" src="@/assets/logo.png" height="38px" width="38px">
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
