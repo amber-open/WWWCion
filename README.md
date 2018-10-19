@@ -15,10 +15,11 @@ location / {
         rewrite ^/(.*) /index.html last;
         break;
     }
-    #缓存文件
+    #支持gzip包加载
     location ~* \.(css|js)$ {
         gzip_static on;
     }
+    #缓存文件
     location ~* ^.+\.(html|htm)$ {
         expires      1h;
     }
@@ -30,7 +31,6 @@ location / {
         access_log   off;
         expires      30d;
     }
-    #支持gzip包加载
     location ~* ^.+\.(eot|ttf|otf|woff|svg)$ {
         access_log   off;
         expires      max;
