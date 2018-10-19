@@ -1,26 +1,39 @@
-# demo
-
-## Project setup
+### 使用命令
 ```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn run serve
+npm install  	安装依赖
+npm run serve	运行测试
+npm run build	构建生产
 ```
 
-### Compiles and minifies for production
+### nginx配置
 ```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
+location / {
+    root   test;
+    index  index.html index.htm;
+    #支持vue-router history模式
+    if (!-e $request_filename) {
+        rewrite ^/(.*) /index.html last;
+        break;
+    }
+    #缓存文件
+    location ~* \.(css|js)$ {
+        gzip_static on;
+    }
+    location ~* ^.+\.(html|htm)$ {
+        expires      1h;
+    }
+    location ~* ^.+\.(css|js|txt|xml|swf|wav)$ {
+        access_log   off;
+        expires      24h;
+    }
+    location ~* ^.+\.(ico|gif|jpg|jpeg|png)$ {
+        access_log   off;
+        expires      30d;
+    }
+    #支持gzip包加载
+    location ~* ^.+\.(eot|ttf|otf|woff|svg)$ {
+        access_log   off;
+        expires      max;
+    }
+}
 ```
