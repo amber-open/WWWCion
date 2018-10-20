@@ -12,7 +12,8 @@ const router = new Router({
       path: "/",
       name: "home",
       meta: {
-        title: '首页'
+        title: '首页',
+        requireAuth: true
       },
       component: Home
     },
