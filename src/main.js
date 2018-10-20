@@ -8,6 +8,8 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
 
+Vue.prototype.api_url = 'http://122.115.54.25:9001'
+
 new Vue({
   router,
   render: h => h(App)
