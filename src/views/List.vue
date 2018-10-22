@@ -10,45 +10,74 @@
     >
       {{ai.text}}
     </v-alert>
-    <v-navigation-drawer v-if="role_name=='admin'" v-model="drawer" fixed app>
-      <v-list dense>
-        <v-list-tile @click="view='transfer'" @click.stop="drawer = !drawer">
-          <v-list-tile-action>
-            <v-icon>swap_horiz</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>转账记录</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="view='user'" @click.stop="drawer = !drawer">
-          <v-list-tile-action>
-            <v-icon>supervisor_account</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>用户管理</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+    <v-navigation-drawer style="background:#001529" dark v-model="drawer" fixed app mobile-break-point="960" width="230">
+      <v-toolbar height="50" style="background:#002140" flat>
+        <v-icon medium>account_balance_wallet</v-icon>
+        <v-toolbar-title style="font-size:18px">积分平台</v-toolbar-title>
+      </v-toolbar>
+      <v-list style="background:#001529" dense>
+        <v-list-group
+          prepend-icon="monetization_on"
+          value="false"
+          no-action
+          v-for="item in nav"
+        >
+          <v-list-tile slot="activator">{{item.name}}</v-list-tile>
+          <v-list-tile v-for="n in item.data"
+          class="menuList" @click="changeMenu(item.name,n)">{{n.name}}</v-list-tile>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="indigo" dark fixed app>
-      <v-toolbar-side-icon v-if="role_name=='admin'" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>
+
+    <v-toolbar height="50" fixed app>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer">
+        <v-icon v-if="drawer">format_indent_decrease</v-icon>
+        <v-icon v-else>format_indent_increase</v-icon>
+      </v-toolbar-side-icon>
+      <!-- <v-toolbar-title>
         <img class="logo" src="@/assets/logo.png" height="38px" width="38px">
-      </v-toolbar-title>
+      </v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn small flat>{{user_name}}</v-btn>
-        <v-btn small flat @click="logout=!logout"><v-icon class="ml-1" dark right>power_settings_new</v-icon></v-btn>
+        <v-menu offset-y right>
+          <v-btn slot="activator" small flat>{{user_name}}</v-btn>
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-title disabled>角色：{{user_info.role_name}}</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-title disabled>余额：{{user_info.balance}}</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-title disabled>eth地址：{{user_info.eth_addr}}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+        <v-btn icon @click="logout=!logout">
+          <v-icon>power_settings_new</v-icon>
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content style="background:#eee">
       <v-container md-10 fluid fill-height>
         <v-layout justify-center>
-          <v-flex xs12 md10 lg9 xl8 text-xs-center>
+          <!-- <v-flex xs12 md10 lg9 xl8 text-xs-center> -->
+          <v-flex xs12 text-xs-center>
+            <v-breadcrumbs class="px-4 py-2 white"
+            style="margin:-15px -15px 20px -15px">
+              <v-icon color="grey lighten-1" slot="divider">chevron_right</v-icon>
+              <v-breadcrumbs-item
+                v-for="item in items"
+                disabled
+                :key="item.text"
+              >
+                {{ item.text }}
+              </v-breadcrumbs-item>
+            </v-breadcrumbs>
             <div v-if="view=='transfer'">
               <v-layout v-bind="binding" row justify-space-around>
                 <v-flex mb-3 xs12 sm5 md4 lg3 xl3>
-                  <v-card dark color="primary">
+                  <v-card>
                     <v-card-text class="pa-1">
                       <h3 class="headline pt-2">
                         <span class="body-1">持有</span>
@@ -56,14 +85,14 @@
                         <span class="body-1">积分</span>
                       </h3>
                       <v-layout align-center justify-space-around>
-                        <v-btn color="accent" flat  @click="dialog = true">转账</v-btn>
-                        <!-- <v-btn color="accent" flat  @click="dialog = true">提现</v-btn> -->
+                        <v-btn small color="error" flat  @click="dialog = true">转账</v-btn>
+                        <v-btn small color="info" flat>提现</v-btn>
                       </v-layout>
                     </v-card-text>
                   </v-card>
                 </v-flex>
                 <v-flex mb-3 xs12 sm5 md4 lg3 xl3>
-                  <v-card dark color="secondary">
+                  <v-card>
                     <v-card-text class="pa-1">
                       <h3 class="headline pt-2">
                         <span class="body-1">价值</span>
@@ -71,7 +100,8 @@
                         <span class="body-1">$</span>
                       </h3>
                       <v-layout align-center justify-space-around>
-                        <v-btn color="accent" flat></v-btn>
+                        <v-btn small color="info" disabled flat></v-btn>
+                        <v-btn small color="info" flat>提现</v-btn>
                       </v-layout>
                     </v-card-text>
                   </v-card>
@@ -84,10 +114,6 @@
         </v-layout>
       </v-container>
     </v-content>
-
-    <v-footer color="indigo" app>
-      <span class="white--text">&emsp;&copy; 2018</span>
-    </v-footer>
 
     <v-dialog v-model="dialog" width="500">
       <v-card>
@@ -116,7 +142,7 @@
 
     <v-dialog v-model="logout" width="300">
       <v-card>
-        <v-card-title class="title error lighten-2" primary-title>
+        <v-card-title class="title error white--text lighten-2" primary-title>
           退出
         </v-card-title>
         <v-card-text class="px-5">
@@ -146,6 +172,34 @@
       userTable
     },
     data: () => ({
+      nav: [
+        {
+          name: '积分管理',
+          data: [
+            {
+              name: '转账记录',
+              src: 'transfer'
+            }
+          ]
+        },
+        {
+          name: '用户管理',
+          data: [
+            {
+              name: '角色设置',
+              src: 'user'
+            }
+          ]
+        }
+      ],
+      items: [
+        {
+          text: '积分管理'
+        },
+        {
+          text: '转账记录'
+        }
+      ],
       view: 'transfer',
       logout: false,
       ai: {
@@ -153,7 +207,7 @@
         type: 'success',
         text: '111'
       },
-      drawer: false,
+      drawer: true,
       dialog: false,
       address: '',
       number: null
@@ -172,7 +226,13 @@
       },
       role_name () {
         return localStorage.getItem('role_name')
+      },
+      user_info () {
+        return JSON.parse(localStorage.getItem('user_info'))
       }
+    },
+    mounted () {
+      console.log(this.user_info);
     },
     methods: {
       showAlert (t,m) {
@@ -183,6 +243,17 @@
           text: m
         }
         setTimeout(() => {vm.ai.state = false}, 3000)
+      },
+      changeMenu (m,n) {
+        this.items = [
+          {
+            text: m
+          },
+          {
+            text: n.name
+          }
+        ]
+        this.view = n.src
       },
       logoutBt () {
         let vm = this
@@ -239,5 +310,12 @@
   }
   .logo{
     display: block;
+  }
+  .menuList{
+    background:#000C17;
+    color: #969BA0;
+  }
+  .v-list__group--active::before,.v-list__group--active::after{
+    background: none !important;
   }
 </style>

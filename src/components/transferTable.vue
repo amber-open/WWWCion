@@ -8,7 +8,7 @@
     >
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.from_addr }}</td>
-        <td class="text-xs-left">{{ props.item.type }}</td>
+        <td class="text-xs-left">{{ $t(props.item.type) }}</td>
         <td class="text-xs-left">{{ props.item.balance }}</td>
         <td class="text-xs-left">{{ props.item.created_at }}</td>
         <td class="text-xs-left">{{ props.item.amount }}</td>
@@ -17,9 +17,12 @@
     <!-- <div style="max-width:600px;margin:10px auto 0 auto" class="text-xs-center">
       <v-pagination
         v-model="page"
-        :length="66"
+        :length="1"
       ></v-pagination>
     </div> -->
+    <p class="mt-2 pl-1 caption" style="text-align:left;color:#666">
+      共{{list.length}}条记录，第1/1页
+    </p>
   </div>
 </template>
 <script>

@@ -42,6 +42,9 @@
         </td>
       </template>
     </v-data-table>
+    <p class="mt-2 pl-1 caption" style="text-align:left;color:#666">
+      共{{list.length}}条记录，第1/1页
+    </p>
   </div>
 </template>
 <script>

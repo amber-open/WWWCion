@@ -70,7 +70,7 @@
     </v-layout>
     <v-dialog v-model="logout" width="300">
       <v-card>
-        <v-card-title class="title success lighten-2" primary-title>
+        <v-card-title class="title success white--text lighten-2" primary-title>
           重置成功
         </v-card-title>
         <v-card-text class="px-5">

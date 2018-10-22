@@ -9,15 +9,6 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
-      name: "home",
-      meta: {
-        title: '首页',
-        requireAuth: true
-      },
-      component: Home
-    },
-    {
       path: "/about",
       name: "about",
       component: () =>
@@ -60,10 +51,10 @@ const router = new Router({
         import("./views/ResetPassword.vue")
     },
     {
-      path: "/list",
+      path: "/",
       name: "list",
       meta: {
-        title: '积分列表',
+        title: '积分服务平台',
         requireAuth: true
       },
       component: () =>

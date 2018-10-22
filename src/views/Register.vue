@@ -71,7 +71,7 @@
 
     <v-dialog v-model="logout" width="300">
       <v-card>
-        <v-card-title class="title success lighten-2" primary-title>
+        <v-card-title class="title white--text success lighten-2" primary-title>
           注册成功
         </v-card-title>
         <v-card-text class="px-5">

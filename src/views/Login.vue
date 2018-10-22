@@ -98,7 +98,8 @@
               localStorage.setItem('role_name',data.data.role_name)
               localStorage.setItem('user_name',data.data.user_name)
               localStorage.setItem('token',data.data.token)
-              location.href = '/list'
+              localStorage.setItem('user_info',JSON.stringify(data.data))
+              location.href = '/'
               vm.showAlert('success','登录成功！')
             }
           }).catch(data => {
