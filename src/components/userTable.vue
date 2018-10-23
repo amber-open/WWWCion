@@ -42,8 +42,14 @@
         </td>
       </template>
     </v-data-table>
-    <p class="mt-2 pl-1 caption" style="text-align:left;color:#666">
-      共{{list.length}}条记录，第1/1页
+    <div style="max-width:666px;margin:10px auto 0 auto" class="text-xs-center">
+      <v-pagination
+        v-model="page"
+        :length="pl"
+      ></v-pagination>
+    </div>
+    <p class="mt-2 mb-0 pl-1 caption" style="text-align:left;color:#666">
+      共{{count}}条记录，第{{page}}/{{pl}}页
     </p>
   </div>
 </template>
@@ -52,6 +58,10 @@
   export default {
     data () {
       return {
+        page: 1,
+        length: 8,
+        pl: 0,
+        count: 0,
         ai: {
           state: false,
           type: 'success',
@@ -74,10 +84,23 @@
     },
     mounted () {
       let vm = this
+      let clientHeight=0;
+      if (document.body.clientHeight&&document.documentElement.clientHeight) {
+        clientHeight = (document.body.clientHeight<document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;
+      } else {
+        clientHeight = (document.body.clientHeight>document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;
+      }
+      vm.length = document.documentElement.clientWidth < 500 ? 10 : Math.floor((clientHeight-260)/48)
       xhr_getRoles().then(function (response) {
         vm.roles = response.data.data
-        vm.getList()
+        vm.getList(vm.length*(vm.page-1),vm.length)
       })
+    },
+    watch: {
+      page (n, o) {
+        let vm = this
+        vm.getList(vm.length*(n-1),vm.length)
+      }
     },
     methods: {
       showAlert (t,m) {
@@ -89,10 +112,12 @@
         }
         setTimeout(() => {vm.ai.state = false}, 3000)
       },
-      getList () {
+      getList (s, l) {
         let vm = this
-        xhr_getUserlist().then(function (response) {
+        xhr_getUserlist(s, l).then(function (response) {
           vm.list = response.data.data
+          vm.count = response.data.count
+          vm.pl = Math.ceil(response.data.count/vm.length)
         })
       },
       changeRole (uid, rid) {

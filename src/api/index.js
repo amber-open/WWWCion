@@ -70,9 +70,9 @@ export function xhr_logout(data) {
 }
 
 
-export function xhr_getTransfers() {
+export function xhr_getTransfers(s,l) {
   return axios({
-    url: api_url + '/transfer',
+    url: api_url + '/transfer?start='+s+'&length='+l,
     method: 'get',
     headers: {
       'X-Auth-Token': localStorage.getItem('token')
@@ -92,9 +92,9 @@ export function xhr_postTransfer(data) {
   })
 }
 
-export function xhr_getUserlist() {
+export function xhr_getUserlist(s,l) {
   return axios({
-    url: api_url + '/user?action=listuser',
+    url: api_url + '/user?action=listuser&start='+s+'&length='+l,
     method: 'post',
     headers: {
       'X-Auth-Token': localStorage.getItem('token')

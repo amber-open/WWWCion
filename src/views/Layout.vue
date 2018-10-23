@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <!-- 左侧sidebar -->
-    <v-navigation-drawer style="background:#001529" dark v-model="drawer" fixed app mobile-break-point="960" width="230">
+    <v-navigation-drawer style="background:#001529" dark v-model="drawer" fixed app mobile-break-point="900" width="230">
       <v-toolbar height="50" style="background:#002140" flat>
         <v-icon medium>account_balance_wallet</v-icon>
         <v-toolbar-title style="font-size:18px">积分平台</v-toolbar-title>
@@ -139,7 +139,13 @@
       }
     },
     mounted () {
-      this.breadcrumb = this.$route.meta.breadcrumb
+      let vm = this
+      if (document.documentElement.clientWidth < 900) {
+        setTimeout(()=>{
+          vm.drawer = false
+        },0)
+      }
+      vm.breadcrumb = this.$route.meta.breadcrumb
     },
     watch:{
       $route(to,from){

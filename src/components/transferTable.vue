@@ -16,12 +16,12 @@
           <v-card-text class="pa-1">
             <h3 class="headline pt-2">
               <span class="body-1">持有</span>
-              <span class="mx-2">{{balance}}</span>
+              <span class="mx-2">{{balance|money}}</span>
               <span class="body-1">积分</span>
             </h3>
             <v-layout align-center justify-space-around>
-              <v-btn small color="error" flat  @click="dialog = true">转账</v-btn>
-              <v-btn small color="info" flat>提现</v-btn>
+              <v-btn small color="error" flat @click="showForm('转积分给商家','local')">转账</v-btn>
+              <v-btn small color="info" flat @click="showForm('提现到ETH地址','eth')">提现</v-btn>
             </v-layout>
           </v-card-text>
         </v-card>
@@ -31,12 +31,12 @@
           <v-card-text class="pa-1">
             <h3 class="headline pt-2">
               <span class="body-1">价值</span>
-              <span class="mx-2">{{balance}}</span>
+              <span class="mx-2">{{balance*20|money}}</span>
               <span class="body-1">$</span>
             </h3>
             <v-layout align-center justify-space-around>
-              <v-btn small color="info" disabled flat></v-btn>
-              <v-btn small color="info" flat>提现</v-btn>
+              <v-btn small color="error" flat @click="showForm('转积分给商家','local')">转账</v-btn>
+              <v-btn small color="info" flat @click="showForm('提现到ETH地址','eth')">提现</v-btn>
             </v-layout>
           </v-card-text>
         </v-card>
@@ -56,37 +56,34 @@
         <td class="text-xs-left">{{ props.item.amount }}</td>
       </template>
     </v-data-table>
-    <!-- <div style="max-width:600px;margin:10px auto 0 auto" class="text-xs-center">
+    <div style="max-width:666px;margin:10px auto 0 auto" class="text-xs-center">
       <v-pagination
         v-model="page"
-        :length="1"
+        :length="pl"
       ></v-pagination>
-    </div> -->
-    <p class="mt-2 pl-1 caption" style="text-align:left;color:#666">
-      共{{list.length}}条记录，第1/1页
+    </div>
+    <p class="mt-2 mb-0 pl-1 caption" style="text-align:left;color:#666">
+      共{{count}}条记录，第{{page}}/{{pl}}页
     </p>
 
     <!-- 转账框 -->
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title class="title grey lighten-2" primary-title>
-          转积分给商家
+          {{fTitle}}
         </v-card-title>
-
         <v-card-text class="px-5">
           <v-text-field v-model="address" label="地址" required></v-text-field>
           <v-text-field v-model="number" label="数量" required></v-text-field>
         </v-card-text>
-
         <v-divider></v-divider>
-
         <v-card-actions>
           <v-btn color="grey darken-1" flat @click="dialog = false">
             取消
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="primary" flat @click="zhuanzhang">
-            转账
+            确定
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -99,6 +96,9 @@
     data () {
       return {
         page: 1,
+        length: 8,
+        pl: 0,
+        count: 0,
         dialog: false,
         address: '',
         number: null,
@@ -118,7 +118,16 @@
           type: 'success',
           text: '111'
         },
+        fTitle: '',
+        zTo: '',
+        balance: 0,
         list: []
+      }
+    },
+    watch: {
+      page (n, o) {
+        let vm = this
+        vm.getList(vm.length*(n-1),vm.length)
       }
     },
     computed: {
@@ -126,16 +135,19 @@
         const binding = {}
         if (this.$vuetify.breakpoint.xs) binding.column = true
         return binding
-      },
-      balance () {
-        return localStorage.getItem('balance')
       }
     },
     mounted () {
       let vm = this
-      xhr_getTransfers().then(function (response) {
-        vm.list = response.data.data
-      })
+      let clientHeight=0;
+      if (document.body.clientHeight&&document.documentElement.clientHeight) {
+        clientHeight = (document.body.clientHeight<document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;
+      } else {
+        clientHeight = (document.body.clientHeight>document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;
+      }
+      vm.length = document.documentElement.clientWidth < 500 ? 10 : Math.floor((clientHeight-360)/48)
+      vm.getList(vm.length*(vm.page-1),vm.length)
+      vm.balance = localStorage.getItem('balance')
     },
     methods: {
       showAlert (t,m) {
@@ -147,17 +159,35 @@
         }
         setTimeout(() => {vm.ai.state = false}, 3000)
       },
+      getList (s,l) {
+        let vm = this
+        xhr_getTransfers(s,l).then(function (response) {
+          vm.list = response.data.data
+          vm.count = response.data.count
+          vm.pl = Math.ceil(response.data.count/vm.length)
+        })
+      },
+      showForm (title, to) {
+        let vm = this
+        vm.dialog = true
+        vm.fTitle = title
+        vm.zTo = to
+      },
       zhuanzhang () {
         let vm = this
         xhr_postTransfer({
           t_eth_addr: vm.address,
           amount: vm.number,
-          to: 'local'
+          to: vm.zTo
         }).then(function (response) {
           if (response.data.code!=0) {
             vm.showAlert('error',response.data.message)
           } else {
             vm.dialog = false
+            console.log(response.data.data.balance);
+            localStorage.setItem('balance',response.data.data.balance)
+            vm.balance = localStorage.getItem('balance')
+            vm.getList()
             vm.showAlert('success','转账成功！')
           }
         }).catch(function (error) {
