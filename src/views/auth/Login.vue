@@ -99,7 +99,7 @@
               localStorage.setItem('user_name',data.data.user_name)
               localStorage.setItem('token',data.data.token)
               localStorage.setItem('user_info',JSON.stringify(data.data))
-              location.href = '/'
+              location.href = '/account/transfer'
               vm.showAlert('success','登录成功！')
             }
           }).catch(data => {
@@ -117,14 +117,14 @@
 <style scoped>
   #inspire{
     /* background-image: url('../assets/ubg2.jpg'); */
-    background-image: url('../assets/authBg.jpg');
+    background-image: url('../../assets/authBg.jpg');
     background-position: center;
     background-size: cover;
   }
   .m-left{
     height: 400px;
     width: 270px;
-    background-image: url('../assets/ubg2.jpg');
+    background-image: url('../../assets/ubg2.jpg');
     background-position: 80% center;
     background-size: cover;
     box-shadow: 0 7px 8px -4px rgba(0,0,0,.2),0 12px 17px 2px rgba(0,0,0,.14),0 5px 22px 4px rgba(0,0,0,.12)!important;

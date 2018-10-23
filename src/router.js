@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
-
+import Home from "@/views/Home.vue";
+import Layout from '@/views/Layout.vue'
 Vue.use(Router);
 
 const router = new Router({
@@ -9,19 +9,12 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/about",
-      name: "about",
-      component: () =>
-        import("./views/About.vue")
-    },
-    {
       path: "/login",
       name: "login",
       meta: {
         title: '用户登录'
       },
-      component: () =>
-        import("./views/Login.vue")
+      component: () => import("@/views/auth/Login.vue")
     },
     {
       path: "/register",
@@ -29,8 +22,7 @@ const router = new Router({
       meta: {
         title: '用户注册'
       },
-      component: () =>
-        import("./views/Register.vue")
+      component: () => import("@/views/auth/Register.vue")
     },
     {
       path: "/changepassword",
@@ -38,8 +30,7 @@ const router = new Router({
       meta: {
         title: '修改密码'
       },
-      component: () =>
-        import("./views/ChangePassword.vue")
+      component: () => import("@/views/auth/ChangePassword.vue")
     },
     {
       path: "/resetpassword",
@@ -47,19 +38,42 @@ const router = new Router({
       meta: {
         title: '重置密码'
       },
-      component: () =>
-        import("./views/ResetPassword.vue")
+      component: () => import("@/views/auth/ResetPassword.vue")
     },
     {
-      path: "/",
-      name: "list",
-      meta: {
-        title: '积分服务平台',
-        requireAuth: true
-      },
-      component: () =>
-        import("./views/List.vue")
-    }
+      path: '/',
+      component: Layout,
+      redirect: '/account/transfer',
+      children: [
+        {
+          path: '/account/transfer',
+          component: () => import('@/components/transferTable.vue'),
+          name: 'Transfer',
+          meta: {
+            title: '转账记录',
+            requireAuth: true,
+            breadcrumb: ['积分管理', '转账记录']
+          }
+        }
+      ]
+    },
+    {
+      path: '/',
+      component: Layout,
+      redirect: '/admin/role',
+      children: [
+        {
+          path: '/admin/role',
+          component: () => import('@/components/userTable.vue'),
+          name: 'Role',
+          meta: {
+            title: '角色设置',
+            requireAuth: true,
+            breadcrumb: ['用户管理', '角色设置']
+          }
+        }
+      ]
+    },
   ]
 });
 

@@ -15,13 +15,21 @@
       <v-card class="m-right elevation-12">
         <v-layout align-center justify-center column fill-height>
           <v-card-text class="px-5 py-2">
-            <v-flex title text-xs-center>重置密码</v-flex>
+            <v-flex title text-xs-center>修改密码</v-flex>
             <v-form ref="form" v-model="valid">
               <v-text-field
                 prepend-icon="person"
                 v-model="info.user_name"
                 :rules="nameRules"
                 label="用户名"
+                required
+              ></v-text-field>
+              <v-text-field
+                prepend-icon="lock"
+                v-model="info.old_pwd"
+                :rules="oldPasswordRules"
+                label="旧密码"
+                type="password"
                 required
               ></v-text-field>
               <v-text-field
@@ -41,24 +49,9 @@
                 type="password"
                 required
               ></v-text-field>
-              <v-select
-                prepend-icon="security"
-                v-model="info.sq_id"
-                :items="questions"
-                item-text="name"
-                item-value="id"
-                label="密保问题"
-              ></v-select>
-              <v-text-field
-                prepend-icon="question_answer"
-                v-model="info.sq_answer"
-                :rules="answerRules"
-                label="密保答案"
-                required
-              ></v-text-field>
             </v-form>
             <v-flex text-xs-center xs12>
-              <v-btn :disabled="!valid" @click="submit" style="width:50%" color="primary">重&nbsp;置<v-icon class="ml-1" dark right>touch_app</v-icon></v-btn>
+              <v-btn :disabled="!valid" @click="submit" style="width:50%" color="primary">修&nbsp;改<v-icon class="ml-1" dark right>touch_app</v-icon></v-btn>
             </v-flex>
             <v-layout align-center justify-space-between reverse>
               <v-btn to="/login" small flat color="primary">现在登录</v-btn>
@@ -71,18 +64,18 @@
     <v-dialog v-model="logout" width="300">
       <v-card>
         <v-card-title class="title success white--text lighten-2" primary-title>
-          重置成功
+          修改成功
         </v-card-title>
         <v-card-text class="px-5">
-          恭喜您重置密码成功，是否跳转登录页面？
+          恭喜您修改密码成功，是否跳转登录页面？
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn color="primary" flat @click="logout = !logout">
+          <v-btn color="grey darken-1" flat @click="logout = !logout">
             取消
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn to="/login" color="primary" flat @click="logoutBt">
+          <v-btn to="/login" color="primary" flat>
             登录
           </v-btn>
         </v-card-actions>
@@ -105,34 +98,21 @@
       password: '',
       info: {
         user_name: '',
-        new_pwd: '',
-        sq_id: 0,
-        sq_answer: ''
+        old_pwd: '',
+        new_pwd: ''
       },
       nameRules: [
         v => !!v || '请填写用户名'
+      ],
+      oldPasswordRules: [
+        v => !!v || '请填写旧密码'
       ],
       passwordRules: [
         v => !!v || '请填写密码',
         v => /(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{8,}/.test(v) || '字母数字符号任意两种组合，且不得少于8位！'
       ],
-      answerRules: [
-        v => !!v || '密保答案'
-      ],
       questions: []
     }),
-    mounted () {
-      let vm = this
-      fetch(vm.api_url+'/questions').then(res=>res.json()).then(data => {
-        vm.info.sq_id = data.data[0].id
-        for (var i in data.data) {
-          vm.questions.push({
-            name:data.data[i].question,
-            id:data.data[i].id
-          })
-        }
-      })
-    },
     computed: {
       passwordErrors () {
         if (this.password!=this.info.new_pwd) {
@@ -153,7 +133,7 @@
       submit () {
         let vm = this
         if (vm.$refs.form.validate()) {
-          fetch(vm.api_url+'/user?action=forget_password',{
+          fetch(vm.api_url+'/user?action=change_password',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json'
@@ -166,7 +146,7 @@
               vm.logout = true
             }
           }).catch(data => {
-            vm.showAlert('error','重置密码失败！')
+            vm.showAlert('error','修改密码失败！')
           })
         }
       }
@@ -180,14 +160,14 @@
 <style scoped>
   #inspire{
     /* background-image: url('../assets/ubg2.jpg'); */
-    background-image: url('../assets/authBg.jpg');
+    background-image: url('../../assets/authBg.jpg');
     background-position: center;
     background-size: cover;
   }
   .m-left{
     height: 550px;
     width: 270px;
-    background-image: url('../assets/ubg2.jpg');
+    background-image: url('../../assets/ubg2.jpg');
     background-position: 80% center;
     background-size: cover;
     box-shadow: 0 7px 8px -4px rgba(0,0,0,.2),0 12px 17px 2px rgba(0,0,0,.14),0 5px 22px 4px rgba(0,0,0,.12)!important;

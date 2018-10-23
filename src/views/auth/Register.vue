@@ -79,11 +79,11 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn color="primary" flat @click="logout = !logout">
+          <v-btn color="grey darken-1" flat @click="logout = !logout">
             取消
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn to="/login" color="primary" flat @click="logoutBt">
+          <v-btn to="/login" color="primary" flat>
             登录
           </v-btn>
         </v-card-actions>
@@ -182,14 +182,14 @@
 <style scoped>
   #inspire{
     /* background-image: url('../assets/ubg2.jpg'); */
-    background-image: url('../assets/authBg.jpg');
+    background-image: url('../../assets/authBg.jpg');
     background-position: center;
     background-size: cover;
   }
   .m-left{
     height: 550px;
     width: 270px;
-    background-image: url('../assets/ubg2.jpg');
+    background-image: url('../../assets/ubg2.jpg');
     background-position: 80% center;
     background-size: cover;
     box-shadow: 0 7px 8px -4px rgba(0,0,0,.2),0 12px 17px 2px rgba(0,0,0,.14),0 5px 22px 4px rgba(0,0,0,.12)!important;
