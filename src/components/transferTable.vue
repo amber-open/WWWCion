@@ -35,7 +35,7 @@
               <span class="body-1">$</span>
             </h3>
             <v-layout align-center justify-space-around>
-              <v-btn small color="error" flat @click="showForm('转积分给商家','local')">转账</v-btn>
+              <v-btn small color="error" disabled flat @click="showForm('转积分给商家','local')"></v-btn>
               <v-btn small color="info" flat @click="showForm('提现到ETH地址','eth')">提现</v-btn>
             </v-layout>
           </v-card-text>

@@ -11,7 +11,7 @@ axios.interceptors.response.use(
     }
   },
   error => {
-    if (error.response.data.code == 401) {
+    if (error.response.status == 401) {
       localStorage.clear()
       location.href = '/login'
     }
