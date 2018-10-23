@@ -31,14 +31,14 @@
       </v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-menu offset-y right>
-          <v-btn slot="activator" small flat>{{user_name}}</v-btn>
+        <v-menu offset-y right :close-on-content-click="false">
+          <v-btn slot="activator" @click="getInfo" small flat>{{user_name}}</v-btn>
           <v-list>
             <v-list-tile>
               <v-list-tile-title disabled>角色：{{user_info.role_name}}</v-list-tile-title>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-title disabled>余额：{{user_info.balance}}</v-list-tile-title>
+              <v-list-tile-title disabled>余额：{{balance}}</v-list-tile-title>
             </v-list-tile>
             <v-list-tile>
               <v-list-tile-title disabled>eth地址：{{user_info.eth_addr}}</v-list-tile-title>
@@ -119,6 +119,7 @@
           ]
         }
       ],
+      balance: 0,
       breadcrumb: ['积分管理','转账记录'],
       view: 'transfer',
       logout: false,
@@ -145,6 +146,7 @@
           vm.drawer = false
         },0)
       }
+      vm.getInfo()
       vm.breadcrumb = this.$route.meta.breadcrumb
     },
     watch:{
@@ -153,6 +155,10 @@
       }
     },
     methods: {
+      getInfo () {
+        let vm = this
+        vm.balance = localStorage.getItem('balance')
+      },
       logoutBt () {
         let vm = this
         xhr_logout().then(function (response) {
