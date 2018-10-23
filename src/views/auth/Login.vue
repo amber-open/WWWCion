@@ -49,6 +49,7 @@
 </template>
 
 <script>
+  import { xhr_login } from '@/api/index'
   export default {
     data: () => ({
       ai: {
@@ -84,27 +85,21 @@
       submit () {
         let vm = this
         if (vm.$refs.form.validate()) {
-          fetch(vm.api_url+'/user?action=login',{
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(vm.info)
-          }).then(res=>res.json()).then(data => {
-            if (data.code!=0) {
-              vm.showAlert('error',data.message)
+          xhr_login(vm.info).then(function (response) {
+            if (response.data.code!=0) {
+              vm.showAlert('error',response.data.message)
             } else {
-              localStorage.setItem('balance',data.data.balance)
-              localStorage.setItem('role_name',data.data.role_name)
-              localStorage.setItem('user_name',data.data.user_name)
-              localStorage.setItem('token',data.data.token)
-              localStorage.setItem('user_info',JSON.stringify(data.data))
+              localStorage.setItem('balance',response.data.data.balance)
+              localStorage.setItem('role_name',response.data.data.role_name)
+              localStorage.setItem('user_name',response.data.data.user_name)
+              localStorage.setItem('token',response.data.data.token)
+              localStorage.setItem('user_info',JSON.stringify(response.data.data))
               location.href = '/account/transfer'
               vm.showAlert('success','登录成功！')
             }
-          }).catch(data => {
-            vm.showAlert('error','登录失败！')
-          })
+          }).catch(function (error) {
+            vm.showAlert('error', error.message)
+          });
         }
       }
     },

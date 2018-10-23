@@ -48,6 +48,7 @@
   </div>
 </template>
 <script>
+  import { xhr_getRoles, xhr_putRoles, xhr_getUserlist } from '@/api/index'
   export default {
     data () {
       return {
@@ -73,18 +74,9 @@
     },
     mounted () {
       let vm = this
-      fetch(vm.api_url+'/roles',{
-        headers:{
-          'X-Auth-Token': localStorage.getItem('token')
-        }
-      }).then(res=>res.json()).then(data => {
-        if (data==401) {
-          localStorage.clear()
-          location.href = '/login'
-        } else {
-          vm.roles = data.data
-          vm.getList()
-        }
+      xhr_getRoles().then(function (response) {
+        vm.roles = response.data.data
+        vm.getList()
       })
     },
     methods: {
@@ -99,45 +91,25 @@
       },
       getList () {
         let vm = this
-        fetch(vm.api_url+'/user?action=listuser',{
-          method: 'POST',
-          headers:{
-            'X-Auth-Token': localStorage.getItem('token')
-          }
-        }).then(res=>res.json()).then(data => {
-          if (data==401) {
-            localStorage.clear()
-            location.href = '/login'
-          } else {
-            vm.list = data.data
-          }
+        xhr_getUserlist().then(function (response) {
+          vm.list = response.data.data
         })
       },
       changeRole (uid, rid) {
         let vm = this
-        fetch(vm.api_url+'/roles',{
-          method: 'PUT',
-          headers:{
-            'Content-Type': 'application/json',
-            'X-Auth-Token': localStorage.getItem('token')
-          },
-          body: JSON.stringify({
-            user_id: uid,
-            role_id: rid,
-          })
-        }).then(res=>res.json()).then(data => {
-          if (data==401) {
-            localStorage.clear()
-            location.href = '/login'
-          } else if (data.code!=0) {
-            vm.showAlert('error',data.message)
+        xhr_putRoles({
+          user_id: uid,
+          role_id: rid,
+        }).then(function (response) {
+          if (response.data.code!=0) {
+            vm.showAlert('error',response.data.message)
           } else {
             vm.getList()
             vm.showAlert('success','更新用户角色成功！')
           }
-        }).catch(data => {
-          vm.showAlert('error','更新用户角色失败！')
-        })
+        }).catch(function (error) {
+          vm.showAlert('error', error.message)
+        });
       }
     }
   }

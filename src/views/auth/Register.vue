@@ -93,6 +93,7 @@
 </template>
 
 <script>
+  import { xhr_addUser, xhr_getQuestions } from '@/api/index'
   export default {
     data: () => ({
       logout: false,
@@ -125,12 +126,12 @@
     }),
     mounted () {
       let vm = this
-      fetch(vm.api_url+'/questions').then(res=>res.json()).then(data => {
-        vm.info.sq_id = data.data[0].id
-        for (var i in data.data) {
+      xhr_getQuestions().then(function (response) {
+        vm.info.sq_id = response.data.data[0].id
+        for (var i in response.data.data) {
           vm.questions.push({
-            name:data.data[i].question,
-            id:data.data[i].id
+            name: response.data.data[i].question,
+            id: response.data.data[i].id
           })
         }
       })
@@ -155,21 +156,15 @@
       submit () {
         let vm = this
         if (vm.$refs.form.validate()) {
-          fetch(vm.api_url+'/user?action=register',{
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(vm.info)
-          }).then(res=>res.json()).then(data => {
-            if (data.code!=0) {
-              vm.showAlert('error',data.message)
+          xhr_addUser(vm.info).then(function (response) {
+            if (response.data.code!=0) {
+              vm.showAlert('error',response.data.message)
             } else {
               vm.logout = true
             }
-          }).catch(data => {
-            vm.showAlert('error','注册失败！')
-          })
+          }).catch(function (error) {
+            vm.showAlert('error', error.message)
+          });
         }
       }
     },

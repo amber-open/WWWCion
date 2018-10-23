@@ -85,6 +85,7 @@
 </template>
 
 <script>
+  import { xhr_changePassword } from '@/api/index'
   export default {
     data: () => ({
       logout: false,
@@ -133,21 +134,15 @@
       submit () {
         let vm = this
         if (vm.$refs.form.validate()) {
-          fetch(vm.api_url+'/user?action=change_password',{
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(vm.info)
-          }).then(res=>res.json()).then(data => {
-            if (data.code!=0) {
-              vm.showAlert('error',data.message)
+          xhr_changePassword(vm.info).then(function (response) {
+            if (response.data.code!=0) {
+              vm.showAlert('error',response.data.message)
             } else {
               vm.logout = true
             }
-          }).catch(data => {
-            vm.showAlert('error','修改密码失败！')
-          })
+          }).catch(function (error) {
+            vm.showAlert('error', error.message)
+          });
         }
       }
     },

@@ -96,13 +96,8 @@
 </template>
 
 <script>
-  import transferTable from '../components/transferTable.vue'
-  import userTable from '../components/userTable.vue'
+  import { xhr_logout } from '@/api/index'
   export default {
-    components: {
-      transferTable,
-      userTable
-    },
     data: () => ({
       nav: [
         {
@@ -154,18 +149,13 @@
     methods: {
       logoutBt () {
         let vm = this
-        fetch(vm.api_url+'/user?action=logout',{
-          method: 'POST',
-          headers:{
-            'X-Auth-Token': localStorage.getItem('token')
-          }
-        }).then(res=>res.json()).then(data => {
+        xhr_logout().then(function (response) {
           localStorage.clear()
           location.href = '/login'
-        }).catch(data => {
+        }).catch(function (error) {
           localStorage.clear()
           location.href = '/login'
-        })
+        });
       }
     },
     props: {

@@ -94,6 +94,7 @@
   </div>
 </template>
 <script>
+  import { xhr_getTransfers, xhr_postTransfer } from '@/api/index'
   export default {
     data () {
       return {
@@ -132,17 +133,8 @@
     },
     mounted () {
       let vm = this
-      fetch(vm.api_url+'/transfer',{
-        headers:{
-          'X-Auth-Token': localStorage.getItem('token')
-        }
-      }).then(res=>res.json()).then(data => {
-        if (data==401) {
-          localStorage.clear()
-          location.href = '/login'
-        } else {
-          vm.list = data.data
-        }
+      xhr_getTransfers().then(function (response) {
+        vm.list = response.data.data
       })
     },
     methods: {
@@ -157,30 +149,20 @@
       },
       zhuanzhang () {
         let vm = this
-        fetch(vm.api_url+'/transfer',{
-          method: 'POST',
-          headers:{
-            'Content-Type': 'application/json',
-            'X-Auth-Token': localStorage.getItem('token')
-          },
-          body: JSON.stringify({
-            t_eth_addr: vm.address,
-            amount: vm.number,
-            to: 'local'
-          })
-        }).then(res=>res.json()).then(data => {
-          if (data==401) {
-            localStorage.clear()
-            location.href = '/login'
-          } else if (data.code!=0) {
-            vm.showAlert('error',data.message)
+        xhr_postTransfer({
+          t_eth_addr: vm.address,
+          amount: vm.number,
+          to: 'local'
+        }).then(function (response) {
+          if (response.data.code!=0) {
+            vm.showAlert('error',response.data.message)
           } else {
             vm.dialog = false
             vm.showAlert('success','转账成功！')
           }
-        }).catch(data => {
-          vm.showAlert('error','转账失败！')
-        })
+        }).catch(function (error) {
+          vm.showAlert('error', error.message)
+        });
       }
     }
   }
