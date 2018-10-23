@@ -73,7 +73,6 @@
     },
     mounted () {
       let vm = this
-      vm.getList()
       fetch(vm.api_url+'/roles',{
         headers:{
           'X-Auth-Token': localStorage.getItem('token')
@@ -84,6 +83,7 @@
           location.href = '/login'
         } else {
           vm.roles = data.data
+          vm.getList()
         }
       })
     },
