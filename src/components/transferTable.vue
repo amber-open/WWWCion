@@ -184,10 +184,10 @@
             vm.showAlert('error',response.data.message)
           } else {
             vm.dialog = false
-            console.log(response.data.data.balance);
             localStorage.setItem('balance',response.data.data.balance)
             vm.balance = localStorage.getItem('balance')
-            vm.getList()
+            vm.page = 1
+            vm.getList(vm.length*(vm.page-1),vm.length)
             vm.showAlert('success','转账成功！')
           }
         }).catch(function (error) {

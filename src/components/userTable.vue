@@ -129,7 +129,8 @@
           if (response.data.code!=0) {
             vm.showAlert('error',response.data.message)
           } else {
-            vm.getList()
+            vm.page = 1
+            vm.getList(vm.length*(vm.page-1),vm.length)
             vm.showAlert('success','更新用户角色成功！')
           }
         }).catch(function (error) {
