@@ -15,7 +15,7 @@
       <v-card class="m-right elevation-12">
         <v-layout align-center justify-center column fill-height>
           <v-card-text class="px-5 py-2">
-            <v-flex title text-xs-center>修改密码</v-flex>
+            <v-flex title text-xs-center mb-3><img class="logo" src="@/assets/logo.png" height="38px">修改密码</v-flex>
             <v-form ref="form" v-model="valid">
               <v-text-field
                 prepend-icon="person"
@@ -153,6 +153,11 @@
 </script>
 
 <style scoped>
+  .logo{
+    margin: 0 10px;
+    position: relative;
+    top: 10px;
+  }
   #inspire{
     /* background-image: url('../assets/ubg2.jpg'); */
     background-image: url('../../assets/authBg.jpg');

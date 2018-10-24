@@ -3,7 +3,7 @@
     <!-- 左侧sidebar -->
     <v-navigation-drawer style="background:#001529" dark v-model="drawer" fixed app mobile-break-point="900" width="230">
       <v-toolbar height="50" style="background:#002140" flat>
-        <v-icon medium>account_balance_wallet</v-icon>
+        <img class="logo" src="@/assets/logo.png" height="38px">
         <v-toolbar-title style="font-size:18px">积分平台</v-toolbar-title>
       </v-toolbar>
       <v-list dense>
@@ -26,8 +26,8 @@
         <v-icon v-if="drawer">format_indent_decrease</v-icon>
         <v-icon v-else>format_indent_increase</v-icon>
       </v-toolbar-side-icon>
-      <!-- <v-toolbar-title>
-        <img class="logo" src="@/assets/logo.png" height="38px" width="38px">
+      <!-- <v-toolbar-title class="ml-0">
+        <img class="logo" src="@/assets/logo.png" height="38px">
       </v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-toolbar-items>
