@@ -1,6 +1,7 @@
 import axios from 'axios'
 const api_url = 'http://122.115.54.25:9001'
 
+// http拦截
 axios.interceptors.response.use(
   response => {
     if (response.data.code == 401) {
@@ -16,9 +17,10 @@ axios.interceptors.response.use(
       location.href = '/login'
     }
     return Promise.reject(error.response.data)
-  })
+  }
+)
 
-
+// 登录
 export function xhr_login(data) {
   return axios({
     url: api_url + '/user?action=login',
@@ -26,14 +28,14 @@ export function xhr_login(data) {
     data
   })
 }
-
+// 获取安全问题
 export function xhr_getQuestions() {
   return axios({
     url: api_url + '/questions',
     method: 'get'
   })
 }
-
+// 注册
 export function xhr_addUser(data) {
   return axios({
     url: api_url + '/user?action=register',
@@ -41,7 +43,7 @@ export function xhr_addUser(data) {
     data
   })
 }
-
+// 修改密码
 export function xhr_changePassword(data) {
   return axios({
     url: api_url + '/user?action=change_password',
@@ -49,7 +51,7 @@ export function xhr_changePassword(data) {
     data
   })
 }
-
+// 重置密码
 export function xhr_resetPassword(data) {
   return axios({
     url: api_url + '/user?action=forget_password',
@@ -57,7 +59,7 @@ export function xhr_resetPassword(data) {
     data
   })
 }
-
+// 退出
 export function xhr_logout(data) {
   return axios({
     url: api_url + '/user?action=logout',
@@ -68,8 +70,7 @@ export function xhr_logout(data) {
     data
   })
 }
-
-
+// 获取转账记录列表
 export function xhr_getTransfers(s,l) {
   return axios({
     url: api_url + '/transfer?start='+s+'&length='+l,
@@ -79,8 +80,7 @@ export function xhr_getTransfers(s,l) {
     }
   })
 }
-
-
+// 转账
 export function xhr_postTransfer(data) {
   return axios({
     url: api_url + '/transfer',
@@ -91,7 +91,7 @@ export function xhr_postTransfer(data) {
     }
   })
 }
-
+// 获取用户列表
 export function xhr_getUserlist(s,l) {
   return axios({
     url: api_url + '/user?action=listuser&start='+s+'&length='+l,
@@ -101,7 +101,7 @@ export function xhr_getUserlist(s,l) {
     }
   })
 }
-
+// 获取角色
 export function xhr_getRoles() {
   return axios({
     url: api_url + '/roles',
@@ -111,7 +111,7 @@ export function xhr_getRoles() {
     }
   })
 }
-
+// 修改角色
 export function xhr_putRoles(data) {
   return axios({
     url: api_url + '/roles',

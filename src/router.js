@@ -78,6 +78,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, form, next) => {
+  if (to.meta.title) {
+    document.title=to.meta.title
+  }
   if (to.matched.some(record => record.meta.requireAuth)){  // 判断该路由是否需要登录权限
     if (localStorage.getItem('token')) {  // 判断当前的token是否存在
       next();
@@ -89,9 +92,6 @@ router.beforeEach((to, form, next) => {
       })
     }
   } else {
-    if (to.meta.title) {
-      document.title=to.meta.title
-    }
     next();
   }
 })

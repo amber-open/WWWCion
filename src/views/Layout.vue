@@ -8,11 +8,11 @@
       </v-toolbar>
       <v-list dense>
         <v-list-group
-          prepend-icon="monetization_on"
-          value="false"
-          no-action
           v-for="item in nav"
           v-if="!(item.name=='用户管理'&& role_name!='admin')"
+          :prepend-icon="item.icon"
+          value="false"
+          no-action
         >
           <v-list-tile slot="activator">{{item.name}}</v-list-tile>
           <v-list-tile v-for="n in item.data"
@@ -20,6 +20,7 @@
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
+
     <!-- 头部header -->
     <v-toolbar height="50" fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer">
@@ -50,6 +51,7 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
+
     <!-- 主体content -->
     <v-content style="background:#eee">
       <v-container md-10 fluid fill-height>
@@ -72,6 +74,7 @@
       </v-container>
     </v-content>
 
+    <!-- 退出弹窗 -->
     <v-dialog v-model="logout" width="300">
       <v-card>
         <v-card-title class="title error white--text lighten-2" primary-title>
@@ -102,6 +105,7 @@
       nav: [
         {
           name: '积分管理',
+          icon: 'account_balance_wallet',
           data: [
             {
               name: '转账记录',
@@ -111,6 +115,7 @@
         },
         {
           name: '用户管理',
+          icon: 'people',
           data: [
             {
               name: '角色设置',
