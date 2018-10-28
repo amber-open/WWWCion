@@ -1,6 +1,6 @@
 import axios from 'axios'
-const api_url = 'http://18.188.173.65:9001'
-
+// const api_url = 'http://18.188.173.65:9001'
+const api_url = 'http://122.115.54.25:9001'
 // http拦截
 axios.interceptors.response.use(
   response => {
@@ -19,7 +19,6 @@ axios.interceptors.response.use(
     return Promise.reject(error.response.data)
   }
 )
-
 // 登录
 export function xhr_login(data) {
   return axios({
@@ -43,6 +42,17 @@ export function xhr_addUser(data) {
     data
   })
 }
+// admin注册
+export function xhr_adminAddUser(data) {
+  return axios({
+    url: api_url + '/admin?action=add_user',
+    method: 'post',
+    data,
+    headers: {
+      'X-Auth-Token': localStorage.getItem('token')
+    }
+  })
+}
 // 修改密码
 export function xhr_changePassword(data) {
   return axios({
@@ -57,6 +67,17 @@ export function xhr_resetPassword(data) {
     url: api_url + '/user?action=forget_password',
     method: 'post',
     data
+  })
+}
+// admin重置密码
+export function xhr_adminResetPassword(data) {
+  return axios({
+    url: api_url + '/admin?action=rest_pwd',
+    method: 'post',
+    data,
+    headers: {
+      'X-Auth-Token': localStorage.getItem('token')
+    }
   })
 }
 // 退出
@@ -120,5 +141,33 @@ export function xhr_putRoles(data) {
     headers: {
       'X-Auth-Token': localStorage.getItem('token')
     }
+  })
+}
+// 获取价格
+export function xhr_getPrice() {
+  return axios({
+    url: api_url + '/price?action=new_price',
+    method: 'get',
+    headers: {
+      'X-Auth-Token': localStorage.getItem('token')
+    }
+  })
+}
+// 修改价格
+export function xhr_putPrice(data) {
+  return axios({
+    url: api_url + '/admin?action=change_price',
+    method: 'post',
+    data,
+    headers: {
+      'X-Auth-Token': localStorage.getItem('token')
+    }
+  })
+}
+// 获取历史价格
+export function xhr_getPriceHistory() {
+  return axios({
+    url: api_url + '/price?action=price_history',
+    method: 'get'
   })
 }

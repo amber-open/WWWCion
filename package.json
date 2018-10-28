@@ -10,8 +10,10 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
     "axios": "^0.18.0",
+    "echarts": "^4.2.0-rc.2",
     "material-design-icons-iconfont": "^3.0.3",
     "roboto-fontface": "*",
+    "v-charts": "^1.18.0",
     "vue": "^2.5.17",
     "vue-i18n": "^8.2.1",
     "vue-router": "^3.0.1",

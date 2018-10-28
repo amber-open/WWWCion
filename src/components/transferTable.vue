@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <v-alert
-      style="position:fixed;top:20px;right:0px;min-width:280px;z-index:100000"
+      style="position:fixed;top:50px;right:0px;min-width:280px;z-index:100000"
       :value="true"
       dismissible
       v-model="ai.state"
@@ -10,8 +10,11 @@
     >
       {{ai.text}}
     </v-alert>
-      <p style="text-align:left;color:#FF5252;background:#fff;padding: 5px 10px">单价 US$ 10.00/WWWCoin</p>
-    <v-layout v-bind="binding" row justify-space-around>
+    <p style="text-align:left;color:#FF5252;background:#fff;padding: 5px 10px">
+      单价 US$ {{prices.price*1|money}}/WWWCoin&emsp;
+      <v-btn v-if="role_name=='admin'" small style="margin:0" color="error" @click="dialog2 = true">修改单价</v-btn>
+    </p>
+    <v-layout text-xs-center v-bind="binding" row justify-space-around>
       <v-flex mb-3 xs12 sm5 md4 lg3 xl3>
         <v-card>
           <v-card-text class="pa-1">
@@ -32,7 +35,7 @@
           <v-card-text class="pa-1">
             <h3 class="headline pt-2">
               <span class="body-1">价值US$</span>
-              <span class="mx-2">{{balance*10|money}}</span>
+              <span class="mx-2">{{balance*prices.price|money}}</span>
               <!-- <span class="body-1">$</span> -->
             </h3>
             <v-layout align-center justify-space-around>
@@ -67,6 +70,28 @@
       共{{count}}条记录，第{{page}}/{{pl}}页
     </p>
 
+
+    <!-- 修改单价 -->
+    <v-dialog v-model="dialog2" width="500">
+      <v-card>
+        <v-card-title class="error title white--text" primary-title>
+          修改汇率
+        </v-card-title>
+        <v-card-text class="px-5">
+          <v-text-field v-model="price" label="单价" required></v-text-field>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn color="grey darken-1" flat @click="dialog2 = false">
+            取消
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat @click="changePrice">
+            确定
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <!-- 转账框 -->
     <v-dialog v-model="dialog" width="500">
       <v-card>
@@ -92,7 +117,7 @@
   </div>
 </template>
 <script>
-  import { xhr_getTransfers, xhr_postTransfer } from '@/api/index'
+  import { xhr_getTransfers, xhr_postTransfer, xhr_getPrice, xhr_putPrice } from '@/api/index'
   export default {
     data () {
       return {
@@ -101,6 +126,7 @@
         pl: 0,
         count: 0,
         dialog: false,
+        dialog2: false,
         address: '',
         number: null,
         headers: [
@@ -121,6 +147,8 @@
         },
         fTitle: '',
         zTo: '',
+        price: '',
+        prices: '',
         balance: 0,
         list: []
       }
@@ -132,6 +160,9 @@
       }
     },
     computed: {
+      role_name () {
+        return localStorage.getItem('role_name')
+      },
       binding () {
         const binding = {}
         if (this.$vuetify.breakpoint.xs) binding.column = true
@@ -146,12 +177,36 @@
       } else {
         clientHeight = (document.body.clientHeight>document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;
       }
-      vm.length = document.documentElement.clientWidth < 500 ? 10 : Math.floor((clientHeight-360)/48)
+      vm.length = document.documentElement.clientWidth < 500 ? 10 : Math.floor((clientHeight-420)/48)
       vm.length = vm.length < 1 ? 10 : vm.length
       vm.getList(vm.length*(vm.page-1),vm.length)
       vm.balance = localStorage.getItem('balance')
+      vm.getPrice()
     },
     methods: {
+      getPrice () {
+        let vm = this
+        xhr_getPrice().then(function (response) {
+          vm.prices = response.data.data[0]
+        })
+      },
+      changePrice () {
+        let vm = this
+        xhr_putPrice({
+          price_id: vm.prices.id,
+          price: vm.price
+        }).then(function (response) {
+          if (response.data.code!=0) {
+            vm.showAlert('error',response.data.message)
+          } else {
+            vm.showAlert('success','修改汇率成功！')
+            vm.getPrice()
+            vm.dialog2 = false
+          }
+        }).catch(function (error) {
+          vm.showAlert('error', error.message)
+        });
+      },
       showAlert (t,m) {
         let vm = this
         vm.ai = {

@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-alert
-      style="position:fixed;top:20px;right:0px;min-width:280px;z-index:100000"
+      style="position:fixed;top:50px;right:0px;min-width:280px;z-index:100000"
       :value="true"
       dismissible
       v-model="ai.state"
@@ -185,10 +185,10 @@
           ]
         },
         {
-          name: '用户管理',
+          name: '管理员选项',
           data: [
             {
-              name: '角色设置',
+              name: '用户管理',
               src: 'user'
             }
           ]

@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-alert
-      style="position:fixed;top:20px;right:0px;min-width:280px;z-index:100"
+      style="position:fixed;top:50px;right:0px;min-width:280px;z-index:100"
       :value="true"
       dismissible
       v-model="ai.state"

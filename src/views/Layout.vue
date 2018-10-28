@@ -9,7 +9,7 @@
       <v-list dense>
         <v-list-group
           v-for="item in nav"
-          v-if="!(item.name=='用户管理'&& role_name!='admin')"
+          v-if="!(item.name=='管理员选项'&& role_name!='admin')"
           :prepend-icon="item.icon"
           value="false"
           no-action
@@ -57,9 +57,9 @@
       <v-container md-10 fluid fill-height>
         <v-layout justify-center>
           <!-- <v-flex xs12 md10 lg9 xl8 text-xs-center> -->
-          <v-flex xs12 text-xs-center>
+          <v-flex xs12>
             <v-breadcrumbs class="px-4 py-2 white"
-            style="margin:-15px -15px 20px -15px">
+            style="margin:-15px -15px 15px -15px">
               <v-icon color="grey lighten-1" slot="divider">chevron_right</v-icon>
               <v-breadcrumbs-item
                 v-for="item in breadcrumb"
@@ -108,17 +108,21 @@
           icon: 'account_balance_wallet',
           data: [
             {
+              name: '我的WWWCion',
+              src: '/account/mywwwcion'
+            },
+            {
               name: '转账记录',
               src: '/account/transfer'
             }
           ]
         },
         {
-          name: '用户管理',
-          icon: 'people',
+          name: '管理员选项',
+          icon: 'settings',
           data: [
             {
-              name: '角色设置',
+              name: '用户管理',
               src: '/admin/role'
             }
           ]

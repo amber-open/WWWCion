@@ -43,8 +43,18 @@ const router = new Router({
     {
       path: '/',
       component: Layout,
-      redirect: '/account/transfer',
+      redirect: '/account/mywwwcion',
       children: [
+        {
+          path: '/account/mywwwcion',
+          component: () => import('@/components/line.vue'),
+          name: 'Role',
+          meta: {
+            title: '我的WWWCion',
+            requireAuth: true,
+            breadcrumb: ['WWWCion管理', '我的WWWCion']
+          }
+        },
         {
           path: '/account/transfer',
           component: () => import('@/components/transferTable.vue'),
@@ -54,22 +64,15 @@ const router = new Router({
             requireAuth: true,
             breadcrumb: ['WWWCion管理', '转账记录']
           }
-        }
-      ]
-    },
-    {
-      path: '/',
-      component: Layout,
-      redirect: '/admin/role',
-      children: [
+        },
         {
           path: '/admin/role',
           component: () => import('@/components/userTable.vue'),
           name: 'Role',
           meta: {
-            title: '角色设置',
+            title: '用户管理',
             requireAuth: true,
-            breadcrumb: ['用户管理', '角色设置']
+            breadcrumb: ['管理员选项', '用户管理']
           }
         }
       ]
