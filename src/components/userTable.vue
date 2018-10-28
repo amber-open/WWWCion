@@ -101,7 +101,7 @@
         <v-card-text class="px-5">
           <v-form ref="form2" v-model="addUserValid">
             <v-select
-              prepend-icon="security"
+              prepend-icon="face"
               v-model="addUserInfo.role_name"
               :items="roles3"
               item-text="name"
