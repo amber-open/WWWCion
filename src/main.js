@@ -25,9 +25,8 @@ Vue.filter('money', function(val) {
   }
   return (((sign)?'':'-') + val + '.' + cents);
 })
-// 使用多文件管理不同的语言是一个好习惯：
+
 const i18n = new VueI18n({
-  // locale: LangStorage.getLang('zh'),  // 语言标识，后面会用做切换和将用户习惯存储到本地浏览器
   locale: 'zh', // 语言标识
   messages: {
     'zh': require('./common/lang/zh'),
@@ -35,8 +34,6 @@ const i18n = new VueI18n({
   }
 })
 Vue.config.productionTip = false
-
-Vue.prototype.api_url = 'http://122.115.54.25:9001'
 
 new Vue({
   i18n,

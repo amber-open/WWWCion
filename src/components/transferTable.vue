@@ -10,6 +10,7 @@
     >
       {{ai.text}}
     </v-alert>
+      <p style="text-align:left;color:#FF5252;background:#fff;padding: 5px 10px">单价 US$ 10.00/WWWCoin</p>
     <v-layout v-bind="binding" row justify-space-around>
       <v-flex mb-3 xs12 sm5 md4 lg3 xl3>
         <v-card>
@@ -17,10 +18,10 @@
             <h3 class="headline pt-2">
               <span class="body-1">持有</span>
               <span class="mx-2">{{balance|money}}</span>
-              <span class="body-1">积分</span>
+              <span class="body-1">WWWCoin</span>
             </h3>
             <v-layout align-center justify-space-around>
-              <v-btn small color="error" flat @click="showForm('转积分给商家','local')">转账</v-btn>
+              <v-btn small color="error" flat @click="showForm('转币','local')">转账</v-btn>
               <v-btn small color="info" flat @click="showForm('提现到ETH地址','eth')">提现</v-btn>
             </v-layout>
           </v-card-text>
@@ -30,12 +31,12 @@
         <v-card>
           <v-card-text class="pa-1">
             <h3 class="headline pt-2">
-              <span class="body-1">价值</span>
-              <span class="mx-2">{{balance*20|money}}</span>
-              <span class="body-1">$</span>
+              <span class="body-1">价值US$</span>
+              <span class="mx-2">{{balance*10|money}}</span>
+              <!-- <span class="body-1">$</span> -->
             </h3>
             <v-layout align-center justify-space-around>
-              <v-btn small color="error" disabled flat @click="showForm('转积分给商家','local')"></v-btn>
+              <v-btn small color="error" disabled flat @click="showForm('转币','local')"></v-btn>
               <v-btn small color="info" flat @click="showForm('提现到ETH地址','eth')">提现</v-btn>
             </v-layout>
           </v-card-text>
@@ -49,11 +50,11 @@
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xs-left">{{ props.item.from_addr }}</td>
+        <!-- <td class="text-xs-left">{{ props.item.from_addr }}</td> -->
         <td class="text-xs-left">{{ $t(props.item.type) }}</td>
         <td class="text-xs-left">{{ props.item.balance }}</td>
-        <td class="text-xs-left">{{ props.item.created_at }}</td>
         <td class="text-xs-left">{{ props.item.amount }}</td>
+        <td class="text-xs-left">{{ props.item.created_at }}</td>
       </template>
     </v-data-table>
     <div style="max-width:666px;margin:10px auto 0 auto" class="text-xs-center">
@@ -103,15 +104,15 @@
         address: '',
         number: null,
         headers: [
-          {
-            text: '来源',
-            sortable: false,
-            value: 'from_addr'
-          },
+          // {
+          //   text: '来源',
+          //   sortable: false,
+          //   value: 'from_addr'
+          // },
           { text: '类型', value: 'type' },
           { text: '数量', value: 'balance' },
-          { text: '时间', value: 'created_at' },
           { text: '金额', value: 'amount' },
+          { text: '时间', value: 'created_at' },
         ],
         ai: {
           state: false,
@@ -146,6 +147,7 @@
         clientHeight = (document.body.clientHeight>document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;
       }
       vm.length = document.documentElement.clientWidth < 500 ? 10 : Math.floor((clientHeight-360)/48)
+      vm.length = vm.length < 1 ? 10 : vm.length
       vm.getList(vm.length*(vm.page-1),vm.length)
       vm.balance = localStorage.getItem('balance')
     },

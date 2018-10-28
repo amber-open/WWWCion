@@ -14,7 +14,7 @@
     <v-navigation-drawer style="background:#001529" dark v-model="drawer" fixed app mobile-break-point="960" width="230">
       <v-toolbar height="50" style="background:#002140" flat>
         <v-icon medium>account_balance_wallet</v-icon>
-        <v-toolbar-title style="font-size:18px">积分平台</v-toolbar-title>
+        <v-toolbar-title style="font-size:18px">WWWCion平台</v-toolbar-title>
       </v-toolbar>
       <v-list style="background:#001529" dense>
         <v-list-group
@@ -84,7 +84,7 @@
                       <h3 class="headline pt-2">
                         <span class="body-1">持有</span>
                         <span class="mx-2">{{balance}}</span>
-                        <span class="body-1">积分</span>
+                        <span class="body-1">WWWCion</span>
                       </h3>
                       <v-layout align-center justify-space-around>
                         <v-btn small color="error" flat  @click="dialog = true">转账</v-btn>
@@ -120,7 +120,7 @@
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title class="title grey lighten-2" primary-title>
-          转积分给商家
+          转WWWCion给商家
         </v-card-title>
 
         <v-card-text class="px-5">
@@ -176,7 +176,7 @@
     data: () => ({
       nav: [
         {
-          name: '积分管理',
+          name: 'WWWCion管理',
           data: [
             {
               name: '转账记录',
@@ -196,7 +196,7 @@
       ],
       items: [
         {
-          text: '积分管理'
+          text: 'WWWCion管理'
         },
         {
           text: '转账记录'

@@ -52,7 +52,7 @@ const router = new Router({
           meta: {
             title: '转账记录',
             requireAuth: true,
-            breadcrumb: ['积分管理', '转账记录']
+            breadcrumb: ['WWWCion管理', '转账记录']
           }
         }
       ]

@@ -4,7 +4,7 @@
     <v-navigation-drawer style="background:#001529" dark v-model="drawer" fixed app mobile-break-point="900" width="230">
       <v-toolbar height="50" style="background:#002140" flat>
         <img class="logo" src="@/assets/logo.png" height="38px">
-        <v-toolbar-title style="font-size:18px">积分平台</v-toolbar-title>
+        <v-toolbar-title style="font-size:16px">WWWCion平台</v-toolbar-title>
       </v-toolbar>
       <v-list dense>
         <v-list-group
@@ -104,7 +104,7 @@
     data: () => ({
       nav: [
         {
-          name: '积分管理',
+          name: 'WWWCion管理',
           icon: 'account_balance_wallet',
           data: [
             {
@@ -125,7 +125,7 @@
         }
       ],
       balance: 0,
-      breadcrumb: ['积分管理','转账记录'],
+      breadcrumb: ['WWWCion管理','转账记录'],
       view: 'transfer',
       logout: false,
       drawer: true,

@@ -18,7 +18,7 @@
     >
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">{{ props.item.user_name }}</td>
-        <td class="text-xs-left">{{ roles[props.item.role_id-1].name }}</td>
+        <td class="text-xs-left">{{ roles2[props.item.role_id].name }}</td>
         <td class="text-xs-left">{{ props.item.balance }}</td>
         <td class="text-xs-left">{{ props.item.created_at }}</td>
         <td class="text-xs-left">
@@ -74,12 +74,13 @@
             value: 'user_name'
           },
           { text: '角色', value: 'role_id' },
-          { text: '积分', value: 'balance' },
+          { text: 'WWWCion', value: 'balance' },
           { text: '创建时间', value: 'created_at' },
           { text: '操作' },
         ],
         list: [],
-        roles: []
+        roles: [],
+        roles2: {}
       }
     },
     mounted () {
@@ -91,8 +92,12 @@
         clientHeight = (document.body.clientHeight>document.documentElement.clientHeight)?document.body.clientHeight:document.documentElement.clientHeight;
       }
       vm.length = document.documentElement.clientWidth < 500 ? 10 : Math.floor((clientHeight-260)/48)
+      vm.length = vm.length < 1 ? 10 : vm.length
       xhr_getRoles().then(function (response) {
         vm.roles = response.data.data
+        vm.roles.forEach((n,i)=>{
+          vm.roles2[n.id] = n
+        })
         vm.getList(vm.length*(vm.page-1),vm.length)
       })
     },
