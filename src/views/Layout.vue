@@ -9,7 +9,7 @@
       <v-list dense>
         <v-list-group
           v-for="item in nav"
-          v-if="!(item.name=='管理员选项'&& role_name!='admin')"
+          v-if="!(item.name=='管理员选项'&& user_info.role_name!='admin')"
           :prepend-icon="item.icon"
           value="false"
           no-action
@@ -33,13 +33,13 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-menu offset-y right :close-on-content-click="false">
-          <v-btn slot="activator" @click="getInfo" small flat>{{user_name}}</v-btn>
+          <v-btn slot="activator" @click="getInfo" small flat>{{user_info.user_name}}</v-btn>
           <v-list>
             <v-list-tile>
               <v-list-tile-title disabled>角色：{{user_info.role_name}}</v-list-tile-title>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-title disabled>余额：{{balance}}</v-list-tile-title>
+              <v-list-tile-title disabled>余额：{{user_info.balance}}</v-list-tile-title>
             </v-list-tile>
             <v-list-tile>
               <v-list-tile-title disabled>eth地址：{{user_info.eth_addr}}</v-list-tile-title>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-  import { xhr_logout } from '@/api/index'
+  import { xhr_logout, xhr_getUserInfo} from '@/api/index'
   export default {
     data: () => ({
       nav: [
@@ -128,24 +128,19 @@
           ]
         }
       ],
-      balance: 0,
       breadcrumb: ['WWWCion管理','转账记录'],
       view: 'transfer',
       logout: false,
       drawer: true,
+      user_info: {
+        role_name: '',
+        balance: '',
+        user_name: ''
+      }
     }),
     computed: {
       key() {
         return this.$route.fullPath
-      },
-      user_name () {
-        return localStorage.getItem('user_name')
-      },
-      role_name () {
-        return localStorage.getItem('role_name')
-      },
-      user_info () {
-        return JSON.parse(localStorage.getItem('user_info'))
       }
     },
     mounted () {
@@ -155,8 +150,10 @@
           vm.drawer = false
         },0)
       }
-      vm.getInfo()
       vm.breadcrumb = this.$route.meta.breadcrumb
+      xhr_getUserInfo().then(function (response) {
+        vm.user_info = response.data.data
+      })
     },
     watch:{
       $route(to,from){
@@ -164,10 +161,6 @@
       }
     },
     methods: {
-      getInfo () {
-        let vm = this
-        vm.balance = localStorage.getItem('balance')
-      },
       logoutBt () {
         let vm = this
         xhr_logout().then(function (response) {

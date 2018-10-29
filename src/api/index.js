@@ -132,6 +132,27 @@ export function xhr_getRoles() {
     }
   })
 }
+// 获取用户信息
+export function xhr_getUserInfo() {
+  return axios({
+    url: api_url + '/token',
+    method: 'post',
+    headers: {
+      'X-Auth-Token': localStorage.getItem('token')
+    }
+  })
+}
+// 修改角色
+export function xhr_putBalance(data) {
+  return axios({
+    url: api_url + '/admin?action=change_balance',
+    method: 'post',
+    data,
+    headers: {
+      'X-Auth-Token': localStorage.getItem('token')
+    }
+  })
+}
 // 修改角色
 export function xhr_putRoles(data) {
   return axios({
