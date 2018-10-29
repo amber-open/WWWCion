@@ -37,7 +37,6 @@
             <h3 class="headline pt-2">
               <span class="body-1">价值US$</span>
               <span class="mx-2">{{user_info.balance*prices.price|money}}</span>
-              <!-- <span class="body-1">$</span> -->
             </h3>
             <v-layout align-center justify-space-around>
               <v-btn small class="px-3 mx-0 btmw" color="error" v-if="role_name=='admin'" disabled flat @click="showForm('转币','local')"></v-btn>
@@ -159,7 +158,9 @@
         fTitle: '',
         zTo: '',
         number: null,
-        user_info: {},
+        user_info: {
+          balance: ''
+        },
         extend:{
           series: {
             label: {
