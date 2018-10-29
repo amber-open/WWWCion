@@ -1,6 +1,6 @@
 import axios from 'axios'
-// const api_url = 'http://18.188.173.65:9001'
-const api_url = 'http://122.115.54.25:9001'
+const api_url = 'http://18.188.173.65:9001'
+// const api_url = 'http://122.115.54.25:9001'
 // http拦截
 axios.interceptors.response.use(
   response => {

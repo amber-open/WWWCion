@@ -43,7 +43,6 @@
             </v-list>
           </v-menu>
           <v-btn small color="error" @click="czmmBt(props.item.user_name)">重置密码</v-btn>
-          <v-btn small color="error" @click="setBalanceBt(props.item)">重置密码</v-btn>
         </td>
       </template>
     </v-data-table>
@@ -57,41 +56,6 @@
       共{{count}}条记录，第{{page}}/{{pl}}页
     </p>
 
-    <!-- 设置balance -->
-    <v-dialog v-model="balanceTK" width="500">
-      <v-card>
-        <v-card-title class="error title white--text" primary-title>
-          设置Balance
-        </v-card-title>
-        <v-card-text class="px-5">
-          <v-form ref="form" v-model="balanceValid">
-            <v-text-field
-              prepend-icon="person"
-              v-model="balanceInfo.user_name"
-              label="用户名"
-              disabled
-              required
-            ></v-text-field>
-            <v-text-field
-              prepend-icon="lock"
-              type="number"
-              v-model="balanceInfo.balance"
-              :rules="balanceRules"
-              label="Balance"
-              required
-            ></v-text-field>
-          </v-form>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn color="grey darken-1" flat @click="czmmTK = false">取消</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn :disabled="!czmmValid" color="primary" flat @click="setBalance">
-            确定
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
 
     <!-- 重置密碼 -->
     <v-dialog v-model="czmmTK" width="500">
@@ -199,7 +163,7 @@
   </div>
 </template>
 <script>
-  import { xhr_getRoles, xhr_putRoles, xhr_getQuestions, xhr_getUserlist, xhr_adminResetPassword, xhr_adminAddUser, xhr_putBalance } from '@/api/index'
+  import { xhr_getRoles, xhr_putRoles, xhr_getQuestions, xhr_getUserlist, xhr_adminResetPassword, xhr_adminAddUser } from '@/api/index'
   export default {
     data () {
       return {
@@ -208,13 +172,6 @@
         czmmInfo: {
           user_name: '',
           new_pwd: ''
-        },
-        balanceValid: false,
-        balanceTK: false,
-        balanceInfo: {
-          user_name: '',
-          user_id: '',
-          balance: ''
         },
         addUserValid: false,
         addUserTK: false,
@@ -230,9 +187,6 @@
         nameRules: [
           v => !!v || '请填写用户名',
           v => /.+@.+/.test(v) || '用户名必须是一个邮箱！'
-        ],
-        balanceRules: [
-          v => !!v || '请填写Balance'
         ],
         passwordRules: [
           v => !!v || '请填写密码',
@@ -314,16 +268,6 @@
       }
     },
     methods: {
-      setBalanceBt (n) {
-        let vm = this
-        vm.balanceTK = true
-        vm.balanceInfo.user_id = n.id
-        vm.balanceInfo.user_name = n.user_name
-        vm.balanceInfo.balance = ''
-      },
-      setBalance () {
-        console.log('setBalance');
-      },
       czmmBt (n) {
         let vm = this
         vm.czmmTK = true

@@ -89,12 +89,11 @@
             if (response.data.code!=0) {
               vm.showAlert('error',response.data.message)
             } else {
-              localStorage.setItem('balance',response.data.data.balance)
               localStorage.setItem('role_name',response.data.data.role_name)
               localStorage.setItem('user_name',response.data.data.user_name)
               localStorage.setItem('token',response.data.data.token)
               localStorage.setItem('user_info',JSON.stringify(response.data.data))
-              location.href = '/account/transfer'
+              location.href = '/account/mywwwcion'
               vm.showAlert('success','登录成功！')
             }
           }).catch(function (error) {

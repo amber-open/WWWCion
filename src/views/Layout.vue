@@ -27,9 +27,6 @@
         <v-icon v-if="drawer">format_indent_decrease</v-icon>
         <v-icon v-else>format_indent_increase</v-icon>
       </v-toolbar-side-icon>
-      <!-- <v-toolbar-title class="ml-0">
-        <img class="logo" src="@/assets/logo.png" height="38px">
-      </v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-menu offset-y right :close-on-content-click="false">
@@ -39,7 +36,7 @@
               <v-list-tile-title disabled>角色：{{user_info.role_name}}</v-list-tile-title>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-title disabled>余额：{{user_info.balance}}</v-list-tile-title>
+              <v-list-tile-title disabled>WWWCoin：{{user_info.balance}}</v-list-tile-title>
             </v-list-tile>
             <v-list-tile>
               <v-list-tile-title disabled>eth地址：{{user_info.eth_addr}}</v-list-tile-title>
@@ -151,9 +148,7 @@
         },0)
       }
       vm.breadcrumb = this.$route.meta.breadcrumb
-      xhr_getUserInfo().then(function (response) {
-        vm.user_info = response.data.data
-      })
+      vm.getInfo()
     },
     watch:{
       $route(to,from){
@@ -161,6 +156,12 @@
       }
     },
     methods: {
+      getInfo () {
+        let vm = this
+        xhr_getUserInfo().then(function (response) {
+          vm.user_info = response.data.data
+        })
+      },
       logoutBt () {
         let vm = this
         xhr_logout().then(function (response) {
