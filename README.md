@@ -1,13 +1,24 @@
-
-### 环境
+### 开发环境
 | 工具  |  版本 |
 | :------------: | :------------: |
 |  node |  8.9.4 |
 |  npm | 5.7.1  |
 
+### 操作流程
+```flow
+st=>start: git clone https://coding.net/u/jinbingpeng/p/jifen/git
+change=>condition: 修改代码 Yes or No?
+rely=>operation: npm install  (安装依赖)
+test=>operation: npm run serve (启动测试环境)
+build=>operation: npm run build (构建dist目录)
+e=>end: 配置nginx代理dist目录
 
+st->rely->change->rely
+change(yes)->test->build->e
+change(no)->build->e
+```
 
-### 使用命令
+### 命令
 ```
 npm install  	安装依赖
 npm run serve	运行测试
