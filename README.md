@@ -1,8 +1,17 @@
+
+### 环境
+| 工具  |  版本 |
+| :------------: | :------------: |
+|  node |  8.9.4 |
+|  npm | 5.7.1  |
+
+
+
 ### 使用命令
 ```
-npm或yarn install  	安装依赖
-npm或yarn run serve	运行测试
-npm或yarn run build	构建生产
+npm install  	安装依赖
+npm run serve	运行测试
+npm run build	构建生产
 ```
 
 ### nginx配置
